@@ -633,6 +633,8 @@ export class Renderer {
 
     rootNode.markActive(this._frameId);
 
+    //console.log("views len = ", views.length);
+
     // If there's only one view then flip the algorithm a bit so that we're only
     // setting the viewport once.
     if (views.length == 1 && views[0].viewport) {
@@ -749,6 +751,7 @@ export class Renderer {
             gl.viewport(vp.x, vp.y, vp.width, vp.height);
           }
           if (this._multiview) {
+            //console.log("multiview, views.length = ", views.length);
             if (i == 0) {
               gl.uniformMatrix4fv(program.uniform.LEFT_PROJECTION_MATRIX, false, views[0].projectionMatrix);
               gl.uniformMatrix4fv(program.uniform.LEFT_VIEW_MATRIX, false, views[0].viewMatrix);
@@ -759,6 +762,7 @@ export class Renderer {
             gl.uniform3fv(program.uniform.CAMERA_POSITION, this._cameraPositions[i]);
             gl.uniform1i(program.uniform.EYE_INDEX, view.eyeIndex);
           } else {
+            //console.log("Not multiview, views.length = ", views.length);
             gl.uniformMatrix4fv(program.uniform.PROJECTION_MATRIX, false, view.projectionMatrix);
             gl.uniformMatrix4fv(program.uniform.VIEW_MATRIX, false, view.viewMatrix);
             gl.uniform3fv(program.uniform.CAMERA_POSITION, this._cameraPositions[i]);
@@ -774,9 +778,11 @@ export class Renderer {
           gl.uniformMatrix4fv(program.uniform.MODEL_MATRIX, false, instance.worldMatrix);
 
           if (primitive._indexBuffer) {
+            //console.log("drawElements, indexBuffer = ", primitive._indexBuffer);
             gl.drawElements(primitive._mode, primitive._elementCount,
                 primitive._indexType, primitive._indexByteOffset);
           } else {
+            //console.log("drawArrays, indexBuffer = ", primitive._indexBuffer);
             gl.drawArrays(primitive._mode, 0, primitive._elementCount);
           }
         }

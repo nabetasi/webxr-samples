@@ -273,6 +273,7 @@ export class Scene extends Node {
     if (!this._renderer) {
       return;
     }
+    //console.log("drawViewArray, views.length = ", views.length);
 
     this._renderer.drawViews(views, this);
   }
